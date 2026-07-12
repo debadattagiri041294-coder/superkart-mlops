@@ -25,10 +25,11 @@ FILES_TO_PUSH = ["app.py",  "requirements.txt"]
 def main():
     api = HfApi(token=HF_TOKEN)
     api.create_repo(
-            repo_id=HF_SPACE_REPO,
-            repo_type="space",
-            exist_ok=True,
-        )
+        repo_id=HF_SPACE_REPO,
+        repo_type="space",
+        space_sdk="gradio",
+        exist_ok=True,
+    )
 
     for filename in FILES_TO_PUSH:
         local_path = os.path.join(DEPLOY_DIR, filename)
