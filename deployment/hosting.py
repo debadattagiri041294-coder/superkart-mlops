@@ -19,7 +19,7 @@ HF_TOKEN = os.environ["HF_TOKEN"]
 HF_SPACE_REPO = os.environ.get("HF_SPACE_REPO", "your-username/superkart-sales-forecast")
 DEPLOY_DIR = os.path.dirname(os.path.abspath(__file__))
 
-FILES_TO_PUSH = ["app.py", "Dockerfile", "requirements.txt"]
+FILES_TO_PUSH = ["app.py",  "requirements.txt"]
 
 
 def main():
@@ -27,7 +27,7 @@ def main():
     api.create_repo(
         repo_id=HF_SPACE_REPO,
         repo_type="space",
-        space_sdk="docker",
+        space_sdk="streamlit",
         exist_ok=True,
     )
 
