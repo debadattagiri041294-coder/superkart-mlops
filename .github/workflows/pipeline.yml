@@ -1,1 +1,59 @@
-<contents of pipeline.yml from Part 1>
+name: SuperKart Sales Forecast MLOps Pipeline
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  HF_TOKEN: ${{ secrets.HF_TOKEN }}
+  HF_DATASET_REPO: ${{ secrets.HF_DATASET_REPO }}
+  HF_MODEL_REPO: ${{ secrets.HF_MODEL_REPO }}
+  HF_SPACE_REPO: ${{ secrets.HF_SPACE_REPO }}
+
+jobs:
+  data-preparation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: pip install -r requirements.txt
+      - run: python data_preparation.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: processed-data
+          path: data/
+
+  model-training:
+    needs: data-preparation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: pip install -r requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: processed-data
+          path: data/
+      - run: python train.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: |
+            model.joblib
+            metrics.json
+
+  deployment:
+    needs: model-training
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: pip install huggingface_hub
+      - run: python deployment/hosting.py
