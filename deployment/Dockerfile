@@ -1,0 +1,1 @@
+<contents of deployment/Dockerfile from Part 1>

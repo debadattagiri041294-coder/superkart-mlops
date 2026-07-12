@@ -1,0 +1,1 @@
+<contents of deployment/hosting.py from Part 1>

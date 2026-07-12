@@ -1,0 +1,1 @@
+<contents of deployment/requirements.txt from Part 1>

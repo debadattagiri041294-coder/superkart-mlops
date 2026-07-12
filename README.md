@@ -1,2 +1,1 @@
-# superkart-mlops
-SuperKart Sales Forecast - automated MLOps pipeline
+<contents of README.md from Part 1>
